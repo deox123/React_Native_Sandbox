@@ -6,8 +6,7 @@ import Form from './Form';
 const Settings = () => {
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Setting!</Text>
-            <Form />
+            <Text>New Contact</Text>
         </View>
     );
 };

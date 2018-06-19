@@ -1,28 +1,42 @@
 import React, { Component } from 'react';
 import { TextInput, View, Text, Button } from 'react-native';
+import realm from '../db';
 
 class Form extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            firstName: 'ASD',
-            lastName: 'adasdaAS',
-            number: '1233'
+            firstName: '',
+            lastName: '',
+            number: ''
         };
 
-        this.onSubmite = this.onSubmite.bind(this)
+        this.addNewContact = this.addNewContact.bind(this);
     }
 
-    onSubmite() {
-        console.log(this.state);
+    addNewContact() {
+        try {
+            realm.write(() => {
+                realm.create('Contact', {
+                    id: new Date().valueOf(),
+                    firstName: this.state.firstName,
+                    lastName: this.state.lastName,
+                    number: this.state.number
+                })
+                // let all = realm.objects('Contact');
+                // for (let c of all) {
+                //     console.log(c)
+                // }
+                
+            })
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     render() {
         return (
             <View>
-                <Text>
-                    New Contact
-                </Text>
                 <TextInput
                     value={this.state.firstName}
                     onChangeText={(firstName) => this.setState({ firstName })}
@@ -36,8 +50,8 @@ class Form extends Component {
                     onChangeText={(number) => this.setState({ number })}
                 />
                 <Button
-                title='Submit'
-                onPress={this.onSubmite}
+                    title='Submit'
+                    onPress={this.addNewContact}
                 />
             </View>
         );
